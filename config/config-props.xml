@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!-- krr-explorer
+	-->
+
+<properties>
+
+<!--  placeholder for now
+	<parameter name="DatabaseName" value = "tqos_database" />
+	
+
+	<list name="Lenses">
+		<parameter name="CauseLens" value="org.topicquests.os.asr.reader.lens.CausalLens" /> 
+		<parameter name="BeliefLens" value="org.topicquests.os.asr.reader.lens.BeliefLens" /> 
+		<parameter name="BiographyLens" value="org.topicquests.os.asr.reader.lens.BiographyLens" /> 
+		<parameter name="ProcessLens" value="org.topicquests.os.asr.reader.lens.ProcessLens" /> 
+	</list>
+-->
+	
+</properties>
+
