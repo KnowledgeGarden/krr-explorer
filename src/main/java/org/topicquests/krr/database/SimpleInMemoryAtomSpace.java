@@ -5,17 +5,18 @@
  */
 package org.topicquests.krr.database;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.*;
 
 import org.topicquests.krr.Environment;
-import org.topicquests.krr.engine.api.IAtomSpace;
 import org.topicquests.krr.engine.api.IJSONAtomSpace;
 import org.topicquests.krr.engine.api.ILink;
 import org.topicquests.krr.engine.api.INode;
 
 import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
 
 /**
  * @author jackpark
@@ -23,23 +24,23 @@ import net.minidev.json.JSONArray;
  */
 public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	private Environment environment;
-	private Map<String, INode> nodeMap;
-	private Map<String, ILink> linkMap;
+	private JSONObject nodeMap;
+	private JSONObject linkMap;
 	
 	/**
 	 * 
 	 */
 	public SimpleInMemoryAtomSpace(Environment env) {
 		environment = env;
-		nodeMap = new HashMap<String, INode>();
-		linkMap = new HashMap<String, ILink>();
+		nodeMap = new JSONObject();
+		linkMap = new JSONObject();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.topicquests.krr.engine.api.IAtomSpace#listNodes()
 	 */
 	@Override
-	public Iterator<INode> listNodes() {
+	public Iterator<Object> listNodes() {
 		return nodeMap.values().iterator();
 	}
 
@@ -47,7 +48,7 @@ public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	 * @see org.topicquests.krr.engine.api.IAtomSpace#listLinks()
 	 */
 	@Override
-	public Iterator<ILink> listLinks() {
+	public Iterator<Object> listLinks() {
 		return linkMap.values().iterator();
 	}
 	
@@ -70,7 +71,7 @@ public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	 */
 	@Override
 	public INode getNode(String nodeId) {
-		return nodeMap.get(nodeId);
+		return (INode)nodeMap.get(nodeId);
 	}
 
 	/* (non-Javadoc)
@@ -78,7 +79,7 @@ public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	 */
 	@Override
 	public boolean removeNode(String nodeId) {
-		INode n = nodeMap.get(nodeId);
+		Object n = nodeMap.get(nodeId);
 		if (n == null)
 			return false;
 		nodeMap.remove(nodeId);
@@ -105,7 +106,7 @@ public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	 */
 	@Override
 	public ILink getLink(String linkId) {
-		return linkMap.get(linkId);
+		return (ILink)linkMap.get(linkId);
 	}
 
 	/* (non-Javadoc)
@@ -113,7 +114,7 @@ public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	 */
 	@Override
 	public boolean removeLink(String linkId) {
-		ILink l = linkMap.get(linkId);
+		Object l = linkMap.get(linkId);
 		if (l == null)
 			return false;
 		linkMap.remove(linkId);
@@ -121,15 +122,25 @@ public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	}
 
 	@Override
-	public void saveDatabase(OutputStream outStream) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void saveNodeDatabase(Writer writer) throws Exception {
+		nodeMap.writeJSONString(writer);
 	}
 
 	@Override
-	public void restoreDatabase(InputStream inStream) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void restoreNodeDatabase(Reader reader) throws Exception {
+		JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
+		nodeMap = (JSONObject)p.parse(reader);	
+	}
+
+	@Override
+	public void saveLinkDatabase(Writer writer) throws Exception {
+		linkMap.writeJSONString(writer);
+	}
+
+	@Override
+	public void restoreLinkDatabase(Reader reader) throws Exception {
+		JSONParser p = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
+		linkMap = (JSONObject)p.parse(reader);	
 	}
 
 

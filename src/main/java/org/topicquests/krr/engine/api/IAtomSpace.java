@@ -25,16 +25,16 @@ import java.util.*;
 public interface IAtomSpace {
 	
 	/**
-	 * 
+	 * Returned objects must be cast to {@link INode}
 	 * @return
 	 */
-	Iterator<INode> listNodes();
+	Iterator<Object> listNodes();
 	
 	/**
-	 * 
+	 * Returned objects must be cast to {@link ILink}
 	 * @return
 	 */
-	Iterator<ILink> listLinks();
+	Iterator<Object> listLinks();
 	
 	/**
 	 * Returns <code>true</code> if <code>newNode</code> is unique

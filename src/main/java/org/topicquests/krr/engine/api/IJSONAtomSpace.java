@@ -8,8 +8,8 @@
  */
 package org.topicquests.krr.engine.api;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.Writer;
+import java.io.Reader;
 
 /**
  * @author jackpark
@@ -19,15 +19,19 @@ public interface IJSONAtomSpace extends IAtomSpace {
 
 	/**
 	 * Save this database to <code>outStream</code>
-	 * @param outStream
+	 * @param writer
 	 * @throws Exception
 	 */
-	void saveDatabase(OutputStream outStream) throws Exception;
+	void saveNodeDatabase(Writer writer) throws Exception;
+	
+	void saveLinkDatabase(Writer writer) throws Exception;
 	
 	/**
 	 * Reconstruct this database from <code>inStream</code>
-	 * @param inStream
+	 * @param reader
 	 * @throws Exception
 	 */
-	void restoreDatabase(InputStream inStream) throws Exception;
+	void restoreNodeDatabase(Reader reader) throws Exception;
+	
+	void restoreLinkDatabase(Reader reader) throws Exception;
 }
