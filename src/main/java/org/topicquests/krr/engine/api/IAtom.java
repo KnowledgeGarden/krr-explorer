@@ -125,9 +125,9 @@ public interface IAtom extends IValue {
 	
 	/**
 	 * Remove an {@link IAtom} from incoming set
-	 * @param atomId
+	 * @param atom
 	 */
-	void removeAtom(String atomId);
+	void removeAtom(IAtom atom);
 	
 	/**
 	 * Swap <code>newAtom</code> for <code>oldAtom</code>
@@ -144,6 +144,8 @@ public interface IAtom extends IValue {
 	 * @return
 	 */
 	List<IAtom> getIncomingSet();
+	
+	void setIncomingSet(List<IAtom> is);
 	
 	/**
 	 * Does not return <code>null</code>
@@ -182,9 +184,9 @@ public interface IAtom extends IValue {
 	
 	IValue getValue(String key);
 	
-	Collection<String> getKeys();
+	Set<String> getKeys();
 	
-	void copyValues(Collection<IValue> other);
+	void copyValues(List<IValue> other);
 	
 	String valuesToString();
 	

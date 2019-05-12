@@ -9,10 +9,11 @@
 package org.topicquests.krr.engine;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Set;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 
 import org.topicquests.krr.engine.api.IAtom;
 import org.topicquests.krr.engine.api.IAtomSpace;
@@ -100,25 +101,38 @@ public abstract class AtomPojo extends ValuePojo implements IAtom {
 
 	@Override
 	public void insertAtom(IAtom atom) {
-		// TODO Auto-generated method stub
-		
+		List<IAtom> l = getIncomingSet();
+		if (l == null) l = new ArrayList<IAtom>();
+		if (!l.contains(atom)) {
+			l.add(atom);
+			setIncomingSet(l);
+		}
 	}
 
 	@Override
-	public void removeAtom(String atomId) {
-		// TODO Auto-generated method stub
-		
+	public void removeAtom(IAtom atom) {
+		List<IAtom> l = getIncomingSet();
+		if (l != null) {
+			l.remove(atom);
+			setIncomingSet(l);
+		}
 	}
 
 	@Override
 	public void swapAtom(IAtom oldAtom, IAtom newAtom) {
-		// TODO Auto-generated method stub
-		
+		List<IAtom> l = getIncomingSet();
+		if (l != null) {
+			l.remove(oldAtom);
+			l.add(newAtom);
+			setIncomingSet(l);
+		}
 	}
 
 	@Override
 	public int getIncomingSetSize() {
-		// TODO Auto-generated method stub
+		List<IAtom> l = getIncomingSet();
+		if (l != null)
+			return l.size();
 		return 0;
 	}
 
@@ -142,6 +156,11 @@ public abstract class AtomPojo extends ValuePojo implements IAtom {
 		}
 		return result;
 	}
+	
+	@Override
+	public void setIncomingSet(List<IAtom> is) {
+		put(INCOMING_SET_FIELD, is);
+	}
 
 	@Override
 	public void setTruthValue(ITruthValue tv) {
@@ -155,24 +174,21 @@ public abstract class AtomPojo extends ValuePojo implements IAtom {
 
 	@Override
 	public void setValue(String key, IValue newValue) {
-		// TODO Auto-generated method stub
-		
+		put(key, newValue);
 	}
 
 	@Override
 	public IValue getValue(String key) {
-		// TODO Auto-generated method stub
-		return null;
+		return (IValue)get(key);
 	}
 
 	@Override
-	public Collection<String> getKeys() {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<String> getKeys() {
+		return this.keySet();
 	}
 
 	@Override
-	public void copyValues(Collection<IValue> other) {
+	public void copyValues(List<IValue> other) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -185,38 +201,40 @@ public abstract class AtomPojo extends ValuePojo implements IAtom {
 
 	@Override
 	public boolean isMarkedForRemoval() {
-		// TODO Auto-generated method stub
-		return false;
+		return getFlagField().charAt(REMOVE_FLAG) == '1';
 	}
 
 	@Override
 	public void unsetRemovalFlag() {
-		// TODO Auto-generated method stub
-		
+		char [] x = getFlagField().toCharArray();
+		x[REMOVE_FLAG] = '0';
+		setFlagField(new String(x));
 	}
 
 	@Override
 	public void markForRemoval() {
-		// TODO Auto-generated method stub
-		
+		char [] x = getFlagField().toCharArray();
+		x[REMOVE_FLAG] = '1';
+		setFlagField(new String(x));
 	}
 
 	@Override
 	public boolean isChecked() {
-		// TODO Auto-generated method stub
-		return false;
+		return getFlagField().charAt(CHECKED_FLAG) == '1';
 	}
 
 	@Override
 	public void unsetChecked() {
-		// TODO Auto-generated method stub
-		
+		char [] x = getFlagField().toCharArray();
+		x[CHECKED_FLAG] = '0';
+		setFlagField(new String(x));
 	}
 
 	@Override
 	public void setChecked() {
-		// TODO Auto-generated method stub
-		
+		char [] x = getFlagField().toCharArray();
+		x[CHECKED_FLAG] = '1';
+		setFlagField(new String(x));
 	}
 	
 	@Override
