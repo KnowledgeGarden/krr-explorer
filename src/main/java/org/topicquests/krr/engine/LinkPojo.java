@@ -10,6 +10,7 @@ package org.topicquests.krr.engine;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.topicquests.krr.engine.api.IAtom;
@@ -47,8 +48,17 @@ public class LinkPojo extends AtomPojo implements ILink {
 	 */
 	@Override
 	public boolean addToOutGoingSet(IAtom newObject) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		List<IAtom> l = listOutGoingSet();
+		if (l == null) {
+			l = new ArrayList<IAtom>();
+		}
+		if (! l.contains(newObject)) {
+			l.add(newObject);
+			setOutGoingSet(l);
+			result = true;
+		}
+		return result;
 	}
 
 	/* (non-Javadoc)
@@ -56,8 +66,7 @@ public class LinkPojo extends AtomPojo implements ILink {
 	 */
 	@Override
 	public List<IAtom> listOutGoingSet() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<IAtom>)get(OUTGOING_SET_FIELD);
 	}
 
 	/* (non-Javadoc)
@@ -65,8 +74,7 @@ public class LinkPojo extends AtomPojo implements ILink {
 	 */
 	@Override
 	public void setOutGoingSet(List<IAtom> newSet) {
-		// TODO Auto-generated method stub
-
+		put(OUTGOING_SET_FIELD, newSet);
 	}
 
 	/* (non-Javadoc)
@@ -110,7 +118,6 @@ public class LinkPojo extends AtomPojo implements ILink {
 	 */
 	@Override
 	public boolean isNode() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -119,8 +126,7 @@ public class LinkPojo extends AtomPojo implements ILink {
 	 */
 	@Override
 	public boolean isLink() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -128,13 +134,16 @@ public class LinkPojo extends AtomPojo implements ILink {
 	 */
 	@Override
 	public int arity() {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		List<IAtom> l = listOutGoingSet();
+		if (l != null)
+			result = l.size();
+		return result;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.topicquests.krr.engine.api.ILink#getOutGoingSet()
-	 */
+	 * /
 	@Override
 	public JSONArray getOutGoingSet() {
 		// TODO Auto-generated method stub
@@ -146,7 +155,9 @@ public class LinkPojo extends AtomPojo implements ILink {
 	 */
 	@Override
 	public IAtom getOutGoingAtom(int where) {
-		// TODO Auto-generated method stub
+		List<IAtom> l = listOutGoingSet();
+		if (l != null && l.size() >= where)
+			return l.get(where);
 		return null;
 	}
 
@@ -155,7 +166,14 @@ public class LinkPojo extends AtomPojo implements ILink {
 	 */
 	@Override
 	public boolean forEachOutGoing(ICallback callback) {
-		// TODO Auto-generated method stub
+		List<IAtom> l = listOutGoingSet();
+		if (l != null) {
+			Iterator<IAtom> itr = l.iterator();
+			while (itr.hasNext()) {
+				if (callback.process(itr.next()))
+					return true;
+			}
+		}
 		return false;
 	}
 
@@ -165,14 +183,14 @@ public class LinkPojo extends AtomPojo implements ILink {
 	 */
 	@Override
 	public long computeContentHash() {
-		JSONArray outgoing = getOutGoingSet();
+		List<IAtom> outgoing = listOutGoingSet();
 		// Link.cc uses 1UL
 		long hsh = ((1L<<44) - 377) * getType();
 		IAtom a;
 		if (outgoing != null && !outgoing.isEmpty()) {
-			Iterator<Object> itr = outgoing.iterator();
+			Iterator<IAtom> itr = outgoing.iterator();
 			while (itr.hasNext()) {
-				a = (IAtom)itr.next();
+				a = itr.next();
 				hsh += a.computeContentHash();
 				// Bit-mixing copied from murmur64. Yes, this is needed.
 				hsh ^= hsh >> 33;

@@ -88,7 +88,7 @@ public interface ILink extends IAtom {
 	 * Return the outgoingSet
 	 * @return
 	 */
-	JSONArray getOutGoingSet();
+	//JSONArray getOutGoingSet();
 	
 	/**
 	 * Return a specific member of outgoingSet

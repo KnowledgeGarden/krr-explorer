@@ -38,8 +38,7 @@ public class NodePojo extends AtomPojo implements INode {
 	 */
 	@Override
 	public boolean isNode() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +46,6 @@ public class NodePojo extends AtomPojo implements INode {
 	 */
 	@Override
 	public boolean isLink() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

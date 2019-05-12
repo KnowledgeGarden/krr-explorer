@@ -8,7 +8,10 @@
  */
 package org.topicquests.krr.engine;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.topicquests.krr.engine.api.IAtom;
@@ -80,8 +83,7 @@ public abstract class AtomPojo extends ValuePojo implements IAtom {
 
 	@Override
 	public void setAtomSpace(IAtomSpace space) {
-		// TODO Auto-generated method stub
-		
+		//TODO ????
 	}
 
 	@Override
@@ -121,27 +123,34 @@ public abstract class AtomPojo extends ValuePojo implements IAtom {
 	}
 
 	@Override
-	public Collection<IAtom> getIncomingSet() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<IAtom> getIncomingSet() {
+		return (List<IAtom>)get(INCOMING_SET_FIELD);
 	}
 
 	@Override
-	public Collection<IAtom> getIncomingSetByType(String atomType) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<IAtom> getIncomingSetByType(int atomType) {
+		List<IAtom>result = new ArrayList<IAtom>();
+		List<IAtom> l = getIncomingSet();
+		if (l != null && !l.isEmpty()) {
+			Iterator<IAtom>itr = l.iterator();
+			IAtom a;
+			while (itr.hasNext()) {
+				a = itr.next();
+				if (a.getType() == atomType)
+					result.add(a);
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public void setTruthValue(ITruthValue tv) {
-		// TODO Auto-generated method stub
-		
+		put(TRUTH_VALUE_FIELD, tv);
 	}
 
 	@Override
 	public ITruthValue getTruthValue() {
-		// TODO Auto-generated method stub
-		return null;
+		return (ITruthValue)get(TRUTH_VALUE_FIELD);
 	}
 
 	@Override

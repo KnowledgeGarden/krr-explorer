@@ -8,7 +8,7 @@
  */
 package org.topicquests.krr.engine.api;
 
-import java.util.Collection;
+import java.util.*;
 
 import static org.joou.Unsigned.*;
 
@@ -30,7 +30,9 @@ public interface IAtom extends IValue {
 		ID_FIELD			= "idField",
 		LABEL_FIELD			= "labelField",
 		INCOMING_SET_FIELD	= "incomingSet",
-		FLAG_FIELD			= "flagField";
+		FLAG_FIELD			= "flagField",
+		TRUTH_VALUE_FIELD	= "truthValueField",
+		ATOM_SPACE_FIELD	= "atomSpaceField";
 	/**
 	 * FLAG_FIELD is for a String value
 	 * That String is 2 characters long
@@ -141,14 +143,14 @@ public interface IAtom extends IValue {
 	 * Does not return <code>null</code>
 	 * @return
 	 */
-	Collection<IAtom> getIncomingSet();
+	List<IAtom> getIncomingSet();
 	
 	/**
 	 * Does not return <code>null</code>
 	 * @param atomType
 	 * @return
 	 */
-	Collection<IAtom> getIncomingSetByType(String atomType);
+	List<IAtom> getIncomingSetByType(int atomType);
 	
 	////////////////////////////
 	// TruthValues
