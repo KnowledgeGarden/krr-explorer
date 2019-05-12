@@ -8,7 +8,10 @@ package org.topicquests.krr;
 import java.io.*;
 import java.util.UUID;
 
+import org.topicquests.krr.engine.NodePojo;
 import org.topicquests.krr.engine.api.IJSONAtomSpace;
+import org.topicquests.krr.engine.api.INodeTypes;
+import org.topicquests.krr.engine.api.IPredicateNode;
 
 
 /**
@@ -62,7 +65,33 @@ public class DSL {
 	
 	//TODO build some objects
 	
-	String newId() {
+	/**
+	 * <p>Return a new {@link IPredicateNode}</p>
+	 * <p>Predicate nodes are identified by their label. For example, if the label
+	 * is "cause", then the predicateNode is "cause_" followed by a UUID string</p>
+	 * <p>Until we have a reason (API) to specialize a PredicateNodePojo, we build this
+	 * as a NodePojo</p>
+	 * @param label
+	 * @return
+	 */
+	public IPredicateNode newPredicateNode(String label) {
+		IPredicateNode result = (IPredicateNode)new NodePojo();
+		result.setType(INodeTypes.PREDICATE_NODE_TYPE);
+		result.setLabel(label);
+		result.setId(newPredicateId(label));
+		database.addNode(result);
+		return result;
+	}
+	
+	
+	String newPredicateId(String predicateLabel) {
+		String result  = predicateLabel;
+		result = result.replaceAll(" ", "_");
+		result += "_"+newUUID();
+		return result;
+	}
+	
+	String newUUID() {
 		return UUID.randomUUID().toString();
 	}
 
