@@ -31,8 +31,7 @@ public interface IAtom extends IValue {
 		LABEL_FIELD			= "labelField",
 		INCOMING_SET_FIELD	= "incomingSet",
 		FLAG_FIELD			= "flagField",
-		TRUTH_VALUE_FIELD	= "truthValueField",
-		ATOM_SPACE_FIELD	= "atomSpaceField";
+		TRUTH_VALUE_FIELD	= "truthValueField";
 	/**
 	 * FLAG_FIELD is for a String value
 	 * That String is 2 characters long

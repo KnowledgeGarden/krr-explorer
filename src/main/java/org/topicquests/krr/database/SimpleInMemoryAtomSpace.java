@@ -71,7 +71,9 @@ public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	 */
 	@Override
 	public INode getNode(String nodeId) {
-		return (INode)nodeMap.get(nodeId);
+		INode result = (INode)nodeMap.get(nodeId);
+		result.setAtomSpace(this);
+		return result;
 	}
 
 	/* (non-Javadoc)
@@ -106,7 +108,9 @@ public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	 */
 	@Override
 	public ILink getLink(String linkId) {
-		return (ILink)linkMap.get(linkId);
+		ILink result = (ILink)linkMap.get(linkId);
+		result.setAtomSpace(this);
+		return result;
 	}
 
 	/* (non-Javadoc)

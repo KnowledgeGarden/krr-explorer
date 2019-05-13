@@ -27,7 +27,8 @@ import net.minidev.json.JSONObject;
  *
  */
 public abstract class AtomPojo extends ValuePojo implements IAtom {
-
+	protected IAtomSpace database;
+	
 	/**
 	 * 
 	 */
@@ -84,7 +85,7 @@ public abstract class AtomPojo extends ValuePojo implements IAtom {
 
 	@Override
 	public void setAtomSpace(IAtomSpace space) {
-		//TODO ????
+		database = space;
 	}
 
 	@Override
