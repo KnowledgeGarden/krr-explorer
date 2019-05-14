@@ -32,6 +32,22 @@ public class ValuePojo extends JSONObject implements IValue {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.topicquests.krr.engine.api.IAtom#setId(java.lang.String)
+	 */
+	@Override
+	public void setId(String id) {
+		put(IValue.ID_FIELD, id);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.topicquests.krr.engine.api.IAtom#getId()
+	 */
+	@Override
+	public String getId() {
+		return getAsString(IValue.ID_FIELD);
+	}
+
+	/* (non-Javadoc)
 	 * @see org.topicquests.krr.engine.api.IValue#setType(java.lang.String)
 	 */
 	@Override

@@ -19,6 +19,7 @@ import org.topicquests.krr.engine.api.IAtom;
 import org.topicquests.krr.engine.api.IAtomSpace;
 import org.topicquests.krr.engine.api.ITruthValue;
 import org.topicquests.krr.engine.api.IValue;
+import org.topicquests.krr.engine.api.IPredicateNode;
 
 import net.minidev.json.JSONObject;
 
@@ -45,21 +46,6 @@ public abstract class AtomPojo extends ValuePojo implements IAtom {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see org.topicquests.krr.engine.api.IAtom#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(String id) {
-		put(IAtom.ID_FIELD, id);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.topicquests.krr.engine.api.IAtom#getId()
-	 */
-	@Override
-	public String getId() {
-		return getAsString(IAtom.ID_FIELD);
-	}
 
 	/* (non-Javadoc)
 	 * @see org.topicquests.krr.engine.api.IAtom#setLabel(java.lang.String)

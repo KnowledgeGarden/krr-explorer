@@ -11,6 +11,7 @@ import java.util.*;
 
 import org.topicquests.krr.Environment;
 import org.topicquests.krr.engine.api.IJSONAtomSpace;
+import org.topicquests.krr.engine.api.IJSONValueStore;
 import org.topicquests.krr.engine.api.ILink;
 import org.topicquests.krr.engine.api.INode;
 
@@ -24,14 +25,16 @@ import net.minidev.json.parser.JSONParser;
  */
 public class SimpleInMemoryAtomSpace implements IJSONAtomSpace {
 	private Environment environment;
+	private IJSONValueStore valueDatabase;
 	private JSONObject nodeMap;
 	private JSONObject linkMap;
 	
 	/**
 	 * 
 	 */
-	public SimpleInMemoryAtomSpace(Environment env) {
+	public SimpleInMemoryAtomSpace(Environment env, IJSONValueStore vdb) {
 		environment = env;
+		valueDatabase = vdb;
 		nodeMap = new JSONObject();
 		linkMap = new JSONObject();
 	}

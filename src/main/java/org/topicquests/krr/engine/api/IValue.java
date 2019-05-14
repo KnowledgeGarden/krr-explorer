@@ -24,9 +24,24 @@ package org.topicquests.krr.engine.api;
  */
 public interface IValue {
 	public static final String
+		ID_FIELD			= "idField",
 		TYPE_FIELD			= "typeField",
 		// likely a JSONObject to satisfy the API
 		VALUE_FIELD			= "valueField";
+
+    /**
+     * <p>Optional value, useful for database persistence or tracing
+     * inference behaviors</p>
+     * @param id String
+     */
+    void setId(String id);
+
+    /**
+     * Can return <code>null</code> if not set
+     * @return String
+     */
+    String getId();
+    
 
 	/**
 	 * Objects have type

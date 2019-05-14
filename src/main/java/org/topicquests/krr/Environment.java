@@ -6,7 +6,9 @@
 package org.topicquests.krr;
 
 import org.topicquests.krr.database.SimpleInMemoryAtomSpace;
+import org.topicquests.krr.database.SimpleInMemoryValueStore;
 import org.topicquests.krr.engine.api.IJSONAtomSpace;
+import org.topicquests.krr.engine.api.IJSONValueStore;
 import org.topicquests.support.RootEnvironment;
 
 /**
@@ -16,17 +18,23 @@ import org.topicquests.support.RootEnvironment;
 public class Environment extends RootEnvironment {
 	private DSL dsl;
 	private IJSONAtomSpace database;
+	private IJSONValueStore valueDatabase;
 	/**
 	 *
 	 */
 	public Environment() {
 		super("config-props.xml", "logger.properties");
-		database = new SimpleInMemoryAtomSpace(this);
+		valueDatabase = new SimpleInMemoryValueStore(this);
+		database = new SimpleInMemoryAtomSpace(this, valueDatabase);
 		dsl = new DSL(this);
 	}
 	
 	public IJSONAtomSpace getInMemoryDatabase() {
 		return database;
+	}
+	
+	public IJSONValueStore getInMemoryValueStore() {
+		return valueDatabase;
 	}
 	
 	public DSL getDSL() {

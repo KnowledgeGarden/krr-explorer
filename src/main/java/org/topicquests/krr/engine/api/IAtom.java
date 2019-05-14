@@ -11,6 +11,7 @@ package org.topicquests.krr.engine.api;
 import java.util.*;
 
 import static org.joou.Unsigned.*;
+import org.topicquests.krr.engine.api.IPredicateNode;
 
 /**
  * <p>Title: MicroInferenceEngine4J</p>
@@ -27,7 +28,6 @@ import static org.joou.Unsigned.*;
  */
 public interface IAtom extends IValue {
 	public static final String
-		ID_FIELD			= "idField",
 		LABEL_FIELD			= "labelField",
 		INCOMING_SET_FIELD	= "incomingSet",
 		FLAG_FIELD			= "flagField",
@@ -44,19 +44,6 @@ public interface IAtom extends IValue {
 		CHECKED_FLAG = 1;
 		
 
-    /**
-     * <p>Optional value, useful for database persistence or tracing
-     * inference behaviors</p>
-     * @param id String
-     */
-    void setId(String id);
-
-    /**
-     * Can return <code>null</code> if not set
-     * @return String
-     */
-    String getId();
-    
     /**
      * Fancy Identifier:
      * <p>If there is an AtomSpace:AtomTable:<br/>
@@ -176,7 +163,7 @@ public interface IAtom extends IValue {
 	/**
 	 * Setting values associated with this atom.
      * If the value is a null pointer, then the key is removed.
-	 * @param key
+	 * @param key must be the ID of an {@link IPredicateNode
 	 * @param newValue
 	 */
 	void setValue(String key, IValue newValue);

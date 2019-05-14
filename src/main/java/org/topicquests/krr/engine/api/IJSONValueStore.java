@@ -8,30 +8,27 @@
  */
 package org.topicquests.krr.engine.api;
 
-import java.io.Writer;
 import java.io.Reader;
+import java.io.Writer;
 
 /**
  * @author jackpark
  *
  */
-public interface IJSONAtomSpace extends IAtomSpace {
+public interface IJSONValueStore extends IValueStore {
 
 	/**
 	 * Save this database to <code>writer</code>
 	 * @param writer
 	 * @throws Exception
 	 */
-	void saveNodeDatabase(Writer writer) throws Exception;
-	
-	void saveLinkDatabase(Writer writer) throws Exception;
-	
+	void saveValueDatabase(Writer writer) throws Exception;
+
 	/**
 	 * Reconstruct this database from <code>reader</code>
 	 * @param reader
 	 * @throws Exception
 	 */
-	void restoreNodeDatabase(Reader reader) throws Exception;
-	
-	void restoreLinkDatabase(Reader reader) throws Exception;
+	void restoreValueDatabase(Reader reader) throws Exception;
+
 }

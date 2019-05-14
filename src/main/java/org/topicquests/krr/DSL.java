@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.topicquests.krr.engine.NodePojo;
 import org.topicquests.krr.engine.api.IJSONAtomSpace;
+import org.topicquests.krr.engine.api.IJSONValueStore;
 import org.topicquests.krr.engine.api.INodeTypes;
 import org.topicquests.krr.engine.api.IPredicateNode;
 
@@ -21,21 +22,24 @@ import org.topicquests.krr.engine.api.IPredicateNode;
 public class DSL {
 	private Environment environment;
 	private IJSONAtomSpace database;
+	private IJSONValueStore valueDatabase;
 	/**
 	 * 
 	 */
 	public DSL(Environment env) {
 		environment = env;
 		database = environment.getInMemoryDatabase();
+		valueDatabase = environment.getInMemoryValueStore();
 	}
 	
 	/**
 	 * Save both node and link files as JSON strings
 	 * @param nodeFile
 	 * @param linkFile
+	 * @param valueFile TODO
 	 * @throws Exception
 	 */
-	public void saveDatabase(File nodeFile, File linkFile) throws Exception {
+	public void saveDatabase(File nodeFile, File linkFile, File valueFile) throws Exception {
 		Writer out = new PrintWriter(nodeFile, "UTF-8");
 		database.saveNodeDatabase(out);
 		out.flush();
@@ -44,15 +48,20 @@ public class DSL {
 		database.saveLinkDatabase(out);
 		out.flush();
 		out.close();
+		out = new PrintWriter(valueFile, "UTF-8");
+		valueDatabase.saveValueDatabase(out);
+		out.flush();
+		out.close();
 	}
 	
 	/**
 	 * Restore both node and link database objects from JSON strings
 	 * @param nodeFile
 	 * @param linkFile
+	 * @param valueFile TODO
 	 * @throws Exception
 	 */
-	public void restoreDatabase(File nodeFile, File linkFile) throws Exception {
+	public void restoreDatabase(File nodeFile, File linkFile, File valueFile) throws Exception {
 		FileInputStream fis = new FileInputStream(nodeFile);
 		Reader rdr = new InputStreamReader(fis, "UTF-8");
 		database.restoreNodeDatabase(rdr);
@@ -60,6 +69,10 @@ public class DSL {
 		fis = new FileInputStream(linkFile);
 		rdr = new InputStreamReader(fis, "UTF-8");
 		database.restoreLinkDatabase(rdr);
+		rdr.close();
+		fis = new FileInputStream(valueFile);
+		rdr = new InputStreamReader(fis, "UTF-8");
+		valueDatabase.restoreValueDatabase(rdr);
 		rdr.close();
 	}
 	
